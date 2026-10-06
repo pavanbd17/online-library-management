@@ -1,0 +1,2 @@
+const router = require("express").Router(); const protect = require("../middleware/authMiddleware"); const admin = require("../middleware/adminMiddleware"); const c = require("../controllers/issueController");
+router.use(protect); router.post("/request", c.request); router.get("/my-books", c.mine); router.get("/", admin, c.all); router.put("/:id/approve", admin, c.approve); router.put("/:id/reject", admin, c.reject); router.put("/:id/return", c.returnBook); module.exports = router;

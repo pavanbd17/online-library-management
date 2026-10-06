@@ -1,0 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => {
+	const loginForm = document.getElementById("loginForm"); const registerForm = document.getElementById("registerForm");
+	if (loginForm) loginForm.addEventListener("submit", async event => { event.preventDefault(); const form = new FormData(loginForm); try { const data = await apiFetch("/auth/login", { method: "POST", body: Object.fromEntries(form) }); setSession(data.token, data.user); location.href = data.user.role === "admin" ? "/admin/dashboard.html" : "/books.html"; } catch (error) { showToast(error.message, "danger"); } });
+	if (registerForm) registerForm.addEventListener("submit", async event => { event.preventDefault(); const form = new FormData(registerForm); const body = Object.fromEntries(form); if (body.password !== body.confirmPassword) return showToast("Passwords do not match", "danger"); delete body.confirmPassword; try { await apiFetch("/auth/register", { method: "POST", body }); showToast("Registration successful"); setTimeout(() => { location.href = "/login.html"; }, 700); } catch (error) { showToast(error.message, "danger"); } });
+});

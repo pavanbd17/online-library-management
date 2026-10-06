@@ -1,0 +1,12 @@
+const API_BASE = "/api";
+const getToken = () => localStorage.getItem("library_token");
+const getUser = () => { try { return JSON.parse(localStorage.getItem("library_user") || "null"); } catch { return null; } };
+const setSession = (token, user) => { localStorage.setItem("library_token", token); localStorage.setItem("library_user", JSON.stringify(user)); };
+const clearSession = () => { localStorage.removeItem("library_token"); localStorage.removeItem("library_user"); };
+const escapeHtml = value => String(value ?? "").replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
+async function apiFetch(path, options = {}) { const headers = { "Content-Type": "application/json", ...(options.headers || {}) }; if (getToken()) headers.Authorization = `Bearer ${getToken()}`; const response = await fetch(API_BASE + path, { ...options, headers, body: options.body && typeof options.body !== "string" ? JSON.stringify(options.body) : options.body }); const data = await response.json().catch(() => ({ success: false, message: "Invalid server response" })); if (response.status === 401) { clearSession(); if (!location.pathname.endsWith("login.html")) location.href = "/login.html"; } if (!response.ok || data.success === false) throw new Error(data.message || "Request failed"); return data; }
+function showToast(message, type = "success") { const target = document.getElementById("toastContainer"); if (!target) return alert(message); const node = document.createElement("div"); node.className = `toast align-items-center text-bg-${type} border-0 show`; node.setAttribute("role", "alert"); node.innerHTML = `<div class="d-flex"><div class="toast-body">${escapeHtml(message)}</div><button class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`; target.appendChild(node); setTimeout(() => node.remove(), 3500); }
+function requireAdmin() { if (getUser()?.role !== "admin") { location.href = "/login.html"; return false; } return true; }
+function setupNav() { document.querySelectorAll("[data-user-name]").forEach(node => node.textContent = getUser()?.name || ""); document.querySelectorAll("[data-logout]").forEach(node => node.addEventListener("click", () => { clearSession(); location.href = "/login.html"; })); }
+function renderEmpty(target, message = "No records found") { target.innerHTML = `<div class="text-muted text-center py-4">${escapeHtml(message)}</div>`; }
+document.addEventListener("DOMContentLoaded", setupNav);

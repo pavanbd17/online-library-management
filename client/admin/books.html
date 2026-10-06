@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Book</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/dashboard.css"><link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark"><div class="container-fluid"><a class="navbar-brand" href="/admin/dashboard.html"><i class="fa-solid fa-book-open"></i> Library Admin</a><div class="d-flex align-items-center gap-3 text-white"><span data-user-name></span><button class="btn btn-outline-light btn-sm" data-logout>Logout</button></div></div></nav><div class="container-fluid"><div class="row"><aside class="col-lg-2 sidebar p-2"><div class="nav-links"><a href="/admin/dashboard.html"><i class="fa-solid fa-chart-line me-2"></i>Dashboard</a><a href="/admin/books.html"><i class="fa-solid fa-book me-2"></i>Books</a><a href="/admin/add-book.html"><i class="fa-solid fa-plus me-2"></i>Add Book</a><a href="/admin/users.html"><i class="fa-solid fa-users me-2"></i>Users</a><a href="/admin/requests.html"><i class="fa-solid fa-clock me-2"></i>Requests</a><a href="/admin/fines.html"><i class="fa-solid fa-money-bill me-2"></i>Fines</a><a href="/"><i class="fa-solid fa-house me-2"></i>Website</a></div></aside><main class="col-lg-10 admin-content"><div><h1 class="fw-bold" id="pageTitle">Add Book</h1><p class="text-muted">Enter book information.</p><div class="card p-4"><form id="bookForm"><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Title</label><input id="title" class="form-control" required></div><div class="col-md-6 mb-3"><label class="form-label">Author</label><input id="author" class="form-control" required></div><div class="col-md-6 mb-3"><label class="form-label">ISBN</label><input id="isbn" class="form-control" required></div><div class="col-md-6 mb-3"><label class="form-label">Category</label><select id="category" class="form-select" required></select></div><div class="col-12 mb-3"><label class="form-label">Description</label><textarea id="description" class="form-control" rows="4"></textarea></div><div class="col-md-6 mb-3"><label class="form-label">Publisher</label><input id="publisher" class="form-control"></div><div class="col-md-3 mb-3"><label class="form-label">Publication Year</label><input id="publicationYear" type="number" class="form-control" min="1000"></div><div class="col-md-3 mb-3"><label class="form-label">Total Copies</label><input id="totalCopies" type="number" class="form-control" min="1" required></div><div class="col-md-6 mb-3"><label class="form-label">Language</label><input id="language" class="form-control" value="English"></div><div class="col-md-6 mb-3"><label class="form-label">Shelf Location</label><input id="shelfLocation" class="form-control"></div><div class="col-12 mb-3"><label class="form-label">Cover Image URL</label><input id="coverImage" class="form-control" placeholder="https://..."></div></div><button class="btn btn-primary">Save Book</button> <a href="/admin/books.html" class="btn btn-outline-secondary">Cancel</a></form></div></div></main></div></div>
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/admin/books-form.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Books</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/dashboard.css"><link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark"><div class="container-fluid"><a class="navbar-brand" href="/admin/dashboard.html"><i class="fa-solid fa-book-open"></i> Library Admin</a><div class="d-flex align-items-center gap-3 text-white"><span data-user-name></span><button class="btn btn-outline-light btn-sm" data-logout>Logout</button></div></div></nav><div class="container-fluid"><div class="row"><aside class="col-lg-2 sidebar p-2"><div class="nav-links"><a href="/admin/dashboard.html"><i class="fa-solid fa-chart-line me-2"></i>Dashboard</a><a href="/admin/books.html"><i class="fa-solid fa-book me-2"></i>Books</a><a href="/admin/add-book.html"><i class="fa-solid fa-plus me-2"></i>Add Book</a><a href="/admin/users.html"><i class="fa-solid fa-users me-2"></i>Users</a><a href="/admin/requests.html"><i class="fa-solid fa-clock me-2"></i>Requests</a><a href="/admin/fines.html"><i class="fa-solid fa-money-bill me-2"></i>Fines</a><a href="/"><i class="fa-solid fa-house me-2"></i>Website</a></div></aside><main class="col-lg-10 admin-content"><div class="d-flex justify-content-between align-items-center flex-wrap gap-2"><div><h1 class="fw-bold">Books</h1><p class="text-muted">Manage library books.</p></div><a href="/admin/add-book.html" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Book</a></div><input id="bookSearch" class="form-control my-3" placeholder="Search books..."><div class="card"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Cover</th><th>Title</th><th>Author</th><th>Category</th><th>ISBN</th><th>Total</th><th>Available</th><th>Actions</th></tr></thead><tbody id="booksBody"></tbody></table></div></div></main></div></div>
+<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/admin/books.js"></script>
+</body>
+</html>
+
+
+document.addEventListener("DOMContentLoaded",async()=>{
+  requireAdmin();setupNav();
+  const id=new URLSearchParams(location.search).get("id");
+  try{
+    const cats=await apiFetch("/books/categories");
+    document.getElementById("category").innerHTML='<option value="">Select category</option>'+cats.data.categories.map(c=>`<option value="${c._id}">${escapeHtml(c.name)}</option>`).join("");
+    if(id){
+      const d=await apiFetch(`/books/${id}`),b=d.data.book;
+      for(const key of ["title","author","isbn","description","publisher","publicationYear","totalCopies","language","shelfLocation","coverImage"]){const e=document.getElementById(key);if(e)e.value=b[key]??""}
+      document.getElementById("category").value=b.category?._id||b.category||"";
+    }
+    document.getElementById("bookForm").addEventListener("submit",async e=>{
+      e.preventDefault();
+      const body={title:title.value.trim(),author:author.value.trim(),isbn:isbn.value.trim(),category:category.value,description:description.value,publisher:publisher.value,publicationYear:publicationYear.value?Number(publicationYear.value):undefined,totalCopies:Number(totalCopies.value),language:language.value,shelfLocation:shelfLocation.value,coverImage:coverImage.value};
+      try{await apiFetch(id?`/books/${id}`:"/books",{method:id?"PUT":"POST",body});showToast(id?"Book updated":"Book created");setTimeout(()=>location.href="/admin/books.html",500)}catch(err){showToast(err.message,"danger")}
+    });
+  }catch(err){showToast(err.message,"danger")}
+});
